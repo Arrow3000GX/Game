@@ -1,0 +1,167 @@
+[gd_scene load_steps=20 format=3 uid="uid://n4verh8dvtud"]
+
+[ext_resource type="Script" uid="uid://tep13vs1vng" path="res://fireball.gd" id="1_7apm1"]
+[ext_resource type="Texture2D" uid="uid://ti17ne01rrca" path="res://Sunny Land Collection Files/Sunny Land Collection Files/Assets/Props Items and VFX/fireball/Sprites/fireball-1.png" id="1_nymw6"]
+[ext_resource type="Texture2D" uid="uid://c18ehbcg0u8c8" path="res://Sunny Land Collection Files/Sunny Land Collection Files/Assets/Props Items and VFX/fireball/Sprites/fireball-2.png" id="2_7apm1"]
+[ext_resource type="Texture2D" uid="uid://0d2ymucrvtim" path="res://Sunny Land Collection Files/Sunny Land Collection Files/Assets/Props Items and VFX/fireball/Sprites/fireball-3.png" id="3_1j7hi"]
+[ext_resource type="Texture2D" uid="uid://kx0j5fs1hd5b" path="res://Sunny Land Collection Files/Sunny Land Collection Files/Assets/Props Items and VFX/fireball/Sprites/fireball-4.png" id="4_xhqtg"]
+[ext_resource type="Texture2D" uid="uid://puy4o1k8se01" path="res://Sunny Land Collection Files/Sunny Land Collection Files/Assets/Props Items and VFX/fireball/Sprites/fireball-5.png" id="5_0ixib"]
+[ext_resource type="Texture2D" uid="uid://bgf03anpll7fk" path="res://Sunny Land Collection Files/Sunny Land Collection Files/Assets/Props Items and VFX/fireball-hit/Sprites/fireball-hit-1.png" id="6_gkxkf"]
+[ext_resource type="Texture2D" uid="uid://cfpio81830i3r" path="res://Sunny Land Collection Files/Sunny Land Collection Files/Assets/Props Items and VFX/fireball-hit/Sprites/fireball-hit-2.png" id="7_8bynu"]
+[ext_resource type="Texture2D" uid="uid://b78ltj7moekbs" path="res://Sunny Land Collection Files/Sunny Land Collection Files/Assets/Props Items and VFX/fireball-hit/Sprites/fireball-hit-3.png" id="8_5a762"]
+[ext_resource type="Texture2D" uid="uid://v2lxu3nnkhe7" path="res://Sunny Land Collection Files/Sunny Land Collection Files/Assets/Props Items and VFX/fireball-hit/Sprites/fireball-hit-4.png" id="9_7yd3m"]
+[ext_resource type="Texture2D" uid="uid://cli422lnnc8va" path="res://Sunny Land Collection Files/Sunny Land Collection Files/Assets/Props Items and VFX/fireball-hit/Sprites/fireball-hit-5.png" id="10_6fjef"]
+[ext_resource type="Texture2D" uid="uid://busc5e5ay1j63" path="res://Sunny Land Collection Files/Sunny Land Collection Files/Assets/Props Items and VFX/fireball-hit/Sprites/fireball-hit-6.png" id="11_sha0f"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_wi6of"]
+radius = 8.0
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_jfno2"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_nymw6")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_7apm1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_1j7hi")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_xhqtg")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_0ixib")
+}],
+"loop": true,
+"name": &"Flight",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("6_gkxkf")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_8bynu")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_5a762")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_7yd3m")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_6fjef")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_sha0f")
+}],
+"loop": true,
+"name": &"Hit",
+"speed": 5.0
+}]
+
+[sub_resource type="Animation" id="Animation_nymw6"]
+resource_name = "Flying ball"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"Flight"]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AnimatedSprite2D:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4, 0.6, 0.8),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4]
+}
+
+[sub_resource type="Animation" id="Animation_1j7hi"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [1]
+}
+
+[sub_resource type="Animation" id="Animation_7apm1"]
+resource_name = "hit"
+length = 0.6
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"Hit"]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AnimatedSprite2D:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_xhqtg"]
+_data = {
+&"Flying ball": SubResource("Animation_nymw6"),
+&"RESET": SubResource("Animation_1j7hi"),
+&"hit": SubResource("Animation_7apm1")
+}
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_7apm1"]
+
+[node name="Fireball" type="CharacterBody2D"]
+script = ExtResource("1_7apm1")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_wi6of")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(-3, 0)
+sprite_frames = SubResource("SpriteFrames_jfno2")
+animation = &"Flight"
+frame = 1
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_xhqtg")
+}
+
+[node name="Fireball" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Fireball"]
+shape = SubResource("CircleShape2D_7apm1")
+
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
+[connection signal="area_entered" from="Fireball" to="." method="_on_fireball_area_entered"]

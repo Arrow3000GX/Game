@@ -1,0 +1,24 @@
+[gd_scene load_steps=3 format=3 uid="uid://7ljqrc4q1tc3"]
+
+[ext_resource type="Texture2D" uid="uid://dn4rj65qlmod6" path="res://Sunny Land Collection Files/Sunny Land Collection Files/Assets/Environments/SunnyLand/Layers/tileset.png" id="1_mi635"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_s8bxr"]
+size = Vector2(36, 8)
+
+[node name="AnimatableBody2D" type="AnimatableBody2D"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(150, 61)
+shape = SubResource("RectangleShape2D_s8bxr")
+
+[node name="Tileset" type="Sprite2D" parent="."]
+position = Vector2(160, 61)
+texture = ExtResource("1_mi635")
+region_enabled = true
+region_rect = Rect2(128, 48, 16, 7)
+
+[node name="Tileset2" type="Sprite2D" parent="."]
+position = Vector2(142, 61)
+texture = ExtResource("1_mi635")
+region_enabled = true
+region_rect = Rect2(160, 48, 20.01, 7)

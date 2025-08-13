@@ -1,0 +1,410 @@
+[gd_scene load_steps=35 format=3 uid="uid://pm25psyjh6te"]
+
+[ext_resource type="Texture2D" uid="uid://b8agjddrt8mt2" path="res://Sunny Land Collection Files/Sunny Land Collection Files/Assets/Characters/Players/Squirrel/idle/Sprites/player-idle-1.png" id="1_f254r"]
+[ext_resource type="Texture2D" uid="uid://cw7ojjq313rpg" path="res://Sunny Land Collection Files/Sunny Land Collection Files/Assets/Characters/Players/Squirrel/crouch/Frames/player-crouch-1.png" id="1_jcrkl"]
+[ext_resource type="Texture2D" uid="uid://dlsr5hkrss3t8" path="res://Sunny Land Collection Files/Sunny Land Collection Files/Assets/Props Items and VFX/Sunnyland FX/Sprites/enemy-death/enemy-death-1.png" id="1_l5o8b"]
+[ext_resource type="Texture2D" uid="uid://bo1twc4yr1xmm" path="res://Sunny Land Collection Files/Sunny Land Collection Files/Assets/Props Items and VFX/Sunnyland FX/Sprites/enemy-death/enemy-death-2.png" id="2_dilcf"]
+[ext_resource type="Texture2D" uid="uid://db6k8h8fr6uws" path="res://Sunny Land Collection Files/Sunny Land Collection Files/Assets/Characters/Players/Squirrel/idle/Sprites/player-idle-2.png" id="2_g142s"]
+[ext_resource type="Texture2D" uid="uid://b2wvs7nrlx2ss" path="res://Sunny Land Collection Files/Sunny Land Collection Files/Assets/Characters/Players/Squirrel/crouch/Frames/player-crouch-2.png" id="2_m6lw6"]
+[ext_resource type="Texture2D" uid="uid://dw5ko1iwob5gr" path="res://Sunny Land Collection Files/Sunny Land Collection Files/Assets/Characters/Players/Squirrel/idle/Sprites/player-idle-3.png" id="3_3ddb3"]
+[ext_resource type="Texture2D" uid="uid://cmir1lt133x85" path="res://Sunny Land Collection Files/Sunny Land Collection Files/Assets/Props Items and VFX/Sunnyland FX/Sprites/enemy-death/enemy-death-3.png" id="3_jcrkl"]
+[ext_resource type="Texture2D" uid="uid://cik26xmkenh5h" path="res://Sunny Land Collection Files/Sunny Land Collection Files/Assets/Props Items and VFX/Sunnyland FX/Sprites/enemy-death/enemy-death-4.png" id="4_m6lw6"]
+[ext_resource type="Texture2D" uid="uid://btigd6ou6s6qx" path="res://Sunny Land Collection Files/Sunny Land Collection Files/Assets/Characters/Players/Squirrel/idle/Sprites/player-idle-4.png" id="4_sls5r"]
+[ext_resource type="Texture2D" uid="uid://b8qjt5836d064" path="res://Sunny Land Collection Files/Sunny Land Collection Files/Assets/Props Items and VFX/Sunnyland FX/Sprites/enemy-death/enemy-death-5.png" id="5_3gkgx"]
+[ext_resource type="Texture2D" uid="uid://nes43crb0ogs" path="res://Sunny Land Collection Files/Sunny Land Collection Files/Assets/Characters/Players/Squirrel/idle/Sprites/player-idle-5.png" id="5_x0s7j"]
+[ext_resource type="Texture2D" uid="uid://cta2tsmn03s2o" path="res://Sunny Land Collection Files/Sunny Land Collection Files/Assets/Props Items and VFX/Sunnyland FX/Sprites/enemy-death/enemy-death-6.png" id="6_86sif"]
+[ext_resource type="Texture2D" uid="uid://bv2bhf0b5apqk" path="res://Sunny Land Collection Files/Sunny Land Collection Files/Assets/Characters/Players/Squirrel/idle/Sprites/player-idle-6.png" id="6_mktfa"]
+[ext_resource type="Texture2D" uid="uid://y72xsgv0ajio" path="res://Sunny Land Collection Files/Sunny Land Collection Files/Assets/Characters/Players/Squirrel/idle/Sprites/player-idle-7.png" id="7_kxde4"]
+[ext_resource type="Texture2D" uid="uid://cxqywogvidoyj" path="res://Sunny Land Collection Files/Sunny Land Collection Files/Assets/Characters/Players/Squirrel/idle/Sprites/player-idle-8.png" id="8_gu1tu"]
+[ext_resource type="Texture2D" uid="uid://gpjv5j67xufq" path="res://Sunny Land Collection Files/Sunny Land Collection Files/Assets/Characters/Players/Squirrel/run/Sprites/player-run-1.png" id="9_kxde4"]
+[ext_resource type="Texture2D" uid="uid://2ujju7wdmwje" path="res://Sunny Land Collection Files/Sunny Land Collection Files/Assets/Characters/Players/Squirrel/run/Sprites/player-run-2.png" id="10_gu1tu"]
+[ext_resource type="Texture2D" uid="uid://bwrl25fuwo0lq" path="res://Sunny Land Collection Files/Sunny Land Collection Files/Assets/Characters/Players/Squirrel/run/Sprites/player-run-3.png" id="11_3mtgu"]
+[ext_resource type="Texture2D" uid="uid://xrls2y0fyhg6" path="res://Sunny Land Collection Files/Sunny Land Collection Files/Assets/Characters/Players/Squirrel/run/Sprites/player-run-4.png" id="12_5qxon"]
+[ext_resource type="Texture2D" uid="uid://cc57i5yvlbbqp" path="res://Sunny Land Collection Files/Sunny Land Collection Files/Assets/Characters/Players/Squirrel/run/Sprites/player-run-5.png" id="13_sokxu"]
+[ext_resource type="Texture2D" uid="uid://cxbhsuc1vfhko" path="res://Sunny Land Collection Files/Sunny Land Collection Files/Assets/Characters/Players/Squirrel/run/Sprites/player-run-6.png" id="14_7kr0s"]
+
+[sub_resource type="GDScript" id="GDScript_l5o8b"]
+script/source = "extends CharacterBody2D
+
+var speed = 100
+var chase = false
+@onready var player = get_node(\"../../player/Player\")
+@onready var cherry = preload(\"res://cherry.tscn\")
+@onready var anim = get_node(\"AnimationPlayer\")
+@onready var attack_scene = preload(\"res://SQUIRREL_attack.tscn\")
+var facing_right = false
+var can_attack = true
+var attack_cooldown = 1
+var player_in_range = false
+
+func _ready():
+	get_node(\"AnimatedSprite2D\").flip_h = true
+
+func _physics_process(delta: float) -> void:
+	if hp==0:
+		move_and_slide()
+		return
+	if not is_on_floor():
+		velocity += get_gravity() * delta
+	if player_in_range:
+		attack()
+	if chase:
+		anim.play(\"Walking\") 
+		var direction = (player.global_position - self.global_position)
+		if direction.x > 0:
+			get_node(\"AnimatedSprite2D\").flip_h = false
+			direction.x = 1
+			facing_right = true
+		else:
+			get_node(\"AnimatedSprite2D\").flip_h = true
+			direction.x = -1
+			facing_right = false
+		velocity.x = direction.x * speed
+	else:
+		velocity.x = 0
+		anim.play(\"Idle\")
+	move_and_slide()
+
+
+var hp = 2
+
+func _on_animation_player_animation_finished(anim_name: StringName) -> void:	
+	if anim_name == \"Death\":
+		var chery = cherry.instantiate()
+		chery.global_position = global_position
+		get_tree().current_scene.add_child(chery)
+		queue_free()
+
+
+
+var is_dead = false
+
+func _on_hit_area_area_exited(area: Area2D) -> void:
+	if area.name == \"Player\":
+		player_in_range = false
+
+func _on_attack_area_area_entered(area: Area2D) -> void:
+	if area.name == \"Player\":
+		player_in_range = true
+
+func attack():
+	if not can_attack:
+		return
+	
+	can_attack = false
+	
+	anim.play(\"Attack\")
+	var strike = attack_scene.instantiate()
+	strike.global_position = global_position + Vector2(-40, 0)
+	if facing_right:
+		strike.global_position = global_position + Vector2(40, 0)
+		strike.direction = 1
+	else:
+		strike.direction = -1
+	get_tree().current_scene.call_deferred(\"add_child\", strike)
+
+	# Start cooldown
+	await get_tree().create_timer(attack_cooldown).timeout
+	can_attack = true
+
+
+func _on_squirrel_area_entered(area: Area2D) -> void:
+	if area.name == \"Fireball\" and not is_dead:
+		hp -= 1
+		if hp <= 0:
+			is_dead = true
+			player.enemies -= 1
+			anim.play(\"Death\")
+
+
+func _on_detection_area_area_entered(area: Area2D) -> void:
+	if area.name == \"Player\":
+		chase = true
+
+func _on_detection_area_area_exited(area: Area2D) -> void:
+	if area.name == \"Player\":
+		chase = false
+"
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_l5o8b"]
+size = Vector2(23, 29)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_3mtgu"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_jcrkl")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_m6lw6")
+}, {
+"duration": 1.0,
+"texture": ExtResource("1_f254r")
+}],
+"loop": true,
+"name": &"Attack",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_l5o8b")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_dilcf")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_jcrkl")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_m6lw6")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_3gkgx")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_86sif")
+}],
+"loop": true,
+"name": &"Death",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_f254r")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_g142s")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_3ddb3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_sls5r")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_x0s7j")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_mktfa")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_kxde4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_gu1tu")
+}],
+"loop": true,
+"name": &"Idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("9_kxde4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_gu1tu")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_3mtgu")
+}, {
+"duration": 1.0,
+"texture": ExtResource("12_5qxon")
+}, {
+"duration": 1.0,
+"texture": ExtResource("13_sokxu")
+}, {
+"duration": 1.0,
+"texture": ExtResource("14_7kr0s")
+}],
+"loop": true,
+"name": &"Walking",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_dilcf"]
+size = Vector2(19, 25)
+
+[sub_resource type="Animation" id="Animation_l5o8b"]
+resource_name = "Attack"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"Attack"]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AnimatedSprite2D:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [0, 1, 2]
+}
+
+[sub_resource type="Animation" id="Animation_na7kb"]
+resource_name = "Death"
+length = 0.6
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"Death"]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AnimatedSprite2D:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5]
+}
+
+[sub_resource type="Animation" id="Animation_487vx"]
+resource_name = "Idle"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"Idle"]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AnimatedSprite2D:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 3, 2, 1, 0]
+}
+
+[sub_resource type="Animation" id="Animation_pj3nr"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [1]
+}
+
+[sub_resource type="Animation" id="Animation_f5yvc"]
+resource_name = "Walking"
+length = 0.6
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"Walking"]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AnimatedSprite2D:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_aqix4"]
+_data = {
+&"Attack": SubResource("Animation_l5o8b"),
+&"Death": SubResource("Animation_na7kb"),
+&"Idle": SubResource("Animation_487vx"),
+&"RESET": SubResource("Animation_pj3nr"),
+&"Walking": SubResource("Animation_f5yvc")
+}
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_jcrkl"]
+radius = 30.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_m6lw6"]
+radius = 250.0
+
+[node name="CharacterBody2D" type="CharacterBody2D"]
+script = SubResource("GDScript_l5o8b")
+
+[node name="squirrel" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="squirrel"]
+position = Vector2(-3.5, 5.5)
+shape = SubResource("RectangleShape2D_l5o8b")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(-1, -1)
+sprite_frames = SubResource("SpriteFrames_3mtgu")
+animation = &"Attack"
+frame = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-3.5, 5.5)
+shape = SubResource("RectangleShape2D_dilcf")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_aqix4")
+}
+
+[node name="DetectionArea" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionArea"]
+position = Vector2(-3, 5)
+shape = SubResource("CircleShape2D_jcrkl")
+
+[node name="HitArea" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitArea"]
+position = Vector2(-3, 5)
+shape = SubResource("CircleShape2D_m6lw6")
+
+[connection signal="area_entered" from="squirrel" to="." method="_on_squirrel_area_entered"]
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
+[connection signal="area_entered" from="DetectionArea" to="." method="_on_detection_area_area_entered"]
+[connection signal="area_exited" from="DetectionArea" to="." method="_on_detection_area_area_exited"]
+[connection signal="area_entered" from="HitArea" to="." method="_on_attack_area_area_entered"]
+[connection signal="area_exited" from="HitArea" to="." method="_on_hit_area_area_exited"]
